@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <template id="sale_report_header">
+            <div class="header">
+                <div class="o_clean_header">
+                    <div class="row" style="font-family:'Roboto',sans-serif">
+                        <div class="col-7">
+                            <img t-if="res_company.logo" t-att-src="image_data_uri(res_company.logo)" alt="Logo"
+                                 style="width:130px"/>
+                        </div>
+                        <div class="col-5" name="company_address" style="font-size:10px; text-align:right;">
+                            <ul class="list-unstyled">
+                                <strong>
+                                    <li t-if="res_company.name">
+                                        <span t-field="res_company.name"/>
+                                    </li>
+                                </strong>
+                                <li t-if="res_company.street">
+                                    <span t-field="res_company.street"/>
+                                </li>
+                                <li t-if="res_company.street2">
+                                    <span t-field="res_company.street2"/>
+                                    <span t-field="res_company.city"/>
+                                </li>
+                                <li t-if="res_company.country_id">
+                                    <span t-field="res_company.country_id.name"/>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </template>
+        <template id="sale_report_footer">
+            <div class="footer">
+                <div class="row" style="font-size:11px;font-family:'Roboto',sans-serif;color:#191970;">
+                    <div class="col-4 text-center" style="margin-top:15px;">
+                        <span>Printed By:
+                            <span t-esc="request.env.user.name"/>
+                        </span>
+                    </div>
+                    <div class="col-4 text-center" style="margin-top:15px;"/>
+
+                    <div class="col-4 text-center" style="margin-top:15px;">
+                        <span>Print Date:
+                            <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d-%m-%Y')"/>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </template>
+
+        <template id="sales_report_template">
+            <t t-call="web.html_container">
+                <t t-call="sales_report.sale_report_header"/>
+                <t t-call="sales_report.sale_report_footer"/>
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <div class="text-center">
+                            <h5>Sales Report</h5>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <table class="table table-sm table-bordered">
+                                    <thead>
+                                        <tr style="background-color:#191970;color:white">
+                                            <th class="text-center text-white text-capitalize">sr.no</th>
+                                            <th class="text-center text-white text-capitalize">name</th>
+                                            <th class="text-center text-white text-capitalize">date</th>
+                                            <th class="text-center text-white text-capitalize">Type</th>
+                                            <th class="text-center text-white text-capitalize">Salesperson</th>
+                                            <th class="text-center text-white text-capitalize">journal
+                                            </th>
+                                            <th class="text-center text-white text-capitalize">amount</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-set="counter" t-value="1"/>
+                                        <t t-set="wage_total" t-value="0"/>
+                                        <tr t-foreach="docs" t-as="o" class="text-center">
+                                            <td>
+                                                <span t-esc="counter"/>
+                                            </td>
+                                            <td class="text-left">
+                                                <span t-esc="o.name"/>
+                                            </td>
+                                            <td>
+                                                <t t-if="o.date">
+                                                    <span t-esc="o.date"/>
+                                                </t>
+                                            </td>
+                                            <td>
+                                                <span t-field="o.type"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="o.invoice_user_id.name"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="o.journal_id.name"/>
+                                            </td>
+                                            <td class="text-right">
+                                                <span t-esc="o.amount"/>
+                                            </td>
+                                            <t t-set="counter" t-value="counter+1"/>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                </t>
+            </t>
+        </template>
+
+        <report
+                id="report_for_sales"
+                model="account.move"
+                string="Sales Report"
+                name="sales_report.sales_report_template"
+                file="sales_report.sales_report_template"
+                report_type="qweb-pdf"/>
+
+    </data>
+</odoo>

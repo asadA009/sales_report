@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="sales_report.sales_report_form_wizard">
+            <field name="name">Sales Reports</field>
+            <field name="model">sales.report.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="date_from"/>
+                            </group>
+                            <group>
+                                <field name="date_to"/>
+                            </group>
+                        </group>
+                        <footer>
+                            <button string="Print" name="print_report" type="object" class="btn-primary"/>
+                            <button string="Tree View" name="tree_view" type="object" class="btn-primary"/>
+                            <button string="Cancel" class="btn-default" special="cancel"/>
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="sales_report.esales_report_action">
+            <field name="name">Sales Reports</field>
+            <field name="res_model">sales.report.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem
+                id="sales_report.sales_report_menu"
+                name="Sales Report"
+                parent="account.menu_finance_reports"
+                action="sales_report.esales_report_action"
+                sequence='20'
+        />
+
+    </data>
+</odoo>
