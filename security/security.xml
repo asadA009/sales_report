@@ -59,7 +59,5 @@
             <field name="domain_force">[(1, '=',1)]</field>
             <field name="domain_force">[('user_id', '=', user.id)]</field>
         </record>
-
-
     </data>
 </odoo>
