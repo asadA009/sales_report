@@ -18,7 +18,7 @@ class AccountMoveDynamic(models.Model):
     payment_type = fields.Selection(PAYMENT_TYPE)
     amount = fields.Float(string='Amount')
     journal_id = fields.Many2one('account.journal')
-    invoice_user_id = fields.Many2one('res.users', string='SalesPerson')
+    user_id = fields.Many2one('res.users', string='SalesPerson')
 
     def init(self):
         tools.drop_view_if_exists(self.env.cr, "account_move_dynamic")
@@ -31,7 +31,7 @@ class AccountMoveDynamic(models.Model):
             act.move_type as invoice_type,
             act.journal_id as journal_id,
             act.date as date,
-            act.invoice_user_id as invoice_user_id,
+            act.invoice_user_id as user_id,
                 pay.payment_type as payment_type,
                 pay.amount as amount
                 from account_move as act join account_payment as pay on act.payment_id = pay.id
