@@ -1,9 +1,10 @@
 from odoo import api, fields, models, tools, _
 
-TYPE = [('out_invoice', 'Regular Invoice'),
-        ('out_refund', 'Credit Note'),
-        ('inbound', 'Customer Payment'),
-        ('outbound', 'Customer Refund')]
+INVOICE_TYPE = [('out_invoice', 'Regular Invoice'),
+                ('out_refund', 'Credit Note')]
+
+PAYMENT_TYPE = [('inbound', 'Customer Payment'),
+                ('outbound', 'Customer Refund')]
 
 
 class AccountMoveDynamic(models.Model):
@@ -13,7 +14,8 @@ class AccountMoveDynamic(models.Model):
 
     name = fields.Char(string='Name')
     date = fields.Date(string='Date')
-    type = fields.Selection(TYPE)
+    invoice_type = fields.Selection(INVOICE_TYPE)
+    payment_type = fields.Selection(PAYMENT_TYPE)
     amount = fields.Float(string='Amount')
     journal_id = fields.Many2one('account.journal')
     invoice_user_id = fields.Many2one('res.users', string='SalesPerson')
@@ -26,10 +28,11 @@ class AccountMoveDynamic(models.Model):
 
             select act.id as id,
             act.name as name,
+            act.move_type as invoice_type,
             act.journal_id as journal_id,
             act.date as date,
             act.invoice_user_id as invoice_user_id,
-                pay.payment_type as type,
+                pay.payment_type as payment_type,
                 pay.amount as amount
                 from account_move as act join account_payment as pay on act.payment_id = pay.id
                 )
