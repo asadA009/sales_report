@@ -47,6 +47,18 @@
             <field name="domain_force">[('user_id', '=', user.id)]</field>
         </record>
 
+        <record model="ir.rule" id="sales_report_manager">
+            <field name="name">Manager view Team Reports</field>
+            <field name="model_id" ref="sales_report.model_sales_report_wizard"/>
+            <field name="groups"
+                   eval="[(4, ref('base.user_root'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+            <field name="domain_force">[(1, '=',1)]</field>
+        </record>
+
         <record model="ir.rule" id="sales_report_lead">
             <field name="name">User view All Team Reports</field>
             <field name="model_id" ref="sales_report.model_sales_report_wizard"/>
@@ -55,9 +67,8 @@
             <field name="perm_read" eval="True"/>
             <field name="perm_write" eval="True"/>
             <field name="perm_create" eval="True"/>
-            <field name="perm_unlink" eval="True"/>
+            <field name="perm_unlink" eval="False"/>
             <field name="domain_force">[(1, '=',1)]</field>
-            <field name="domain_force">[('user_id', '=', user.id)]</field>
         </record>
     </data>
 </odoo>
