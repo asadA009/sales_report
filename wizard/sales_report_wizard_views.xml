@@ -35,7 +35,7 @@
         <menuitem
                 id="sales_report.sales_report_menu"
                 name="Sales Report"
-                parent="account.menu_finance_reports"
+                parent="sale.menu_sale_report"
                 action="sales_report.esales_report_action"
                 sequence='20'
         />
