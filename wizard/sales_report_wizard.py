@@ -1,4 +1,4 @@
-from odoo import fields, models, api
+from odoo import fields, models, _
 
 
 class SalesReportWizard(models.TransientModel):
@@ -17,12 +17,12 @@ class SalesReportWizard(models.TransientModel):
 
     def tree_view(self):
         tree_view_id = self.env.ref('sales_report.account_move_dynamic_tree_view').ids
-        # form_view_id = self.env.ref('sales_report.account_move_dynamic_form_view').ids
         return {
-            'name': 'Test',
+            'name': _('Sales Report for Period: ') + f'{self.date_from} - {self.date_to}',
             'view_mode': 'tree',
             'views': [[tree_view_id, 'tree']],
             'res_model': 'account.move.dynamic',
             'type': 'ir.actions.act_window',
+            'domain': [('date', '>=', self.date_from), ('date', '<=', self.date_to)],
             'target': 'current',
         }

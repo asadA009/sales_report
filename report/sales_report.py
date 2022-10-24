@@ -11,5 +11,4 @@ class SalesReport(models.AbstractModel):
             [('date', '>=', data['date_from']), ('date', '<=', data['date_to'])])
         return {
             'docs': sales_report,
-            # 'payment': customer_payments
         }

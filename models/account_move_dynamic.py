@@ -1,9 +1,9 @@
 from odoo import api, fields, models, tools, _
 
-TYPE = [('out_invoice', 'Regular Invoice'),
-        ('out_refund', 'Credit Note'),
-        ('inbound', 'Customer Payment'),
-        ('outbound', 'Customer Refund')]
+RECORD_TYPE = [('out_invoice', 'Regular Invoice'),
+                ('out_refund', 'Credit Note'),
+                ('inbound', 'Customer Payment'),
+                ('outbound', 'Customer Refund')]
 
 
 class AccountMoveDynamic(models.Model):
@@ -13,25 +13,25 @@ class AccountMoveDynamic(models.Model):
 
     name = fields.Char(string='Name')
     date = fields.Date(string='Date')
-    type = fields.Selection(TYPE)
+    move_type = fields.Selection(RECORD_TYPE)
     amount = fields.Float(string='Amount')
     journal_id = fields.Many2one('account.journal')
-    invoice_user_id = fields.Many2one('res.users', string='SalesPerson')
+    user_id = fields.Many2one('res.users', string='SalesPerson')
+    team_id = fields.Many2one('crm.team', string='Team')
 
     def init(self):
         tools.drop_view_if_exists(self.env.cr, "account_move_dynamic")
         self._cr.execute("""
-        
-        CREATE or REPLACE view account_move_dynamic as (
-
-            select act.id as id,
-            act.name as name,
-            act.journal_id as journal_id,
-            act.date as date,
-            act.invoice_user_id as invoice_user_id,
-                pay.payment_type as type,
-                pay.amount as amount
-                from account_move as act join account_payment as pay on act.payment_id = pay.id
-                )
-
-         """)
+        CREATE or REPLACE view account_move_dynamic AS (
+        select act.id AS id,
+        act.name AS name,
+        CASE WHEN act.payment_id IS NOT NULL THEN pay.payment_type ELSE act.move_type END AS move_type,
+        act.journal_id AS journal_id,
+        act.date AS date,
+        CASE WHEN act.payment_id IS NOT NULL THEN pay.user_id ELSE act.invoice_user_id END AS user_id,
+        CASE WHEN act.payment_id IS NOT NULL THEN pay.team_id ELSE act.team_id END AS team_id,
+        pay.payment_type AS payment_type,
+        act.amount_total_signed AS amount
+        FROM account_move AS act LEFT JOIN account_payment AS pay ON act.payment_id = pay.id
+        WHERE act.payment_id IS NOT NULL OR act.move_type IN ('out_invoice', 'out_refund')
+        )""")

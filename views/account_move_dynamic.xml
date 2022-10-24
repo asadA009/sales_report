@@ -2,27 +2,6 @@
 <odoo>
     <data>
 
-        <record id="account_move_dynamic_form_view" model="ir.ui.view">
-            <field name="name">account.move.dynamic.form</field>
-            <field name="model">account.move.dynamic</field>
-            <field name="arch" type="xml">
-                <form string="Account Move Dynamic">
-                    <sheet>
-                        <group>
-                            <group>
-                                <field name="name"/>
-                                <field name="date"/>
-                                <field name="type"/>
-                                <field name="amount"/>
-                                <field name="journal_id"/>
-                                <field name="invoice_user_id"/>
-                            </group>
-                        </group>
-                    </sheet>
-                </form>
-            </field>
-        </record>
-
         <record id="account_move_dynamic_tree_view" model="ir.ui.view">
             <field name="name">account.move.dynamic.tree</field>
             <field name="model">account.move.dynamic</field>
@@ -30,10 +9,11 @@
                 <tree string="Account Move Dynamic">
                     <field name="name"/>
                     <field name="date"/>
-                    <field name="type"/>
+                    <field name="move_type"/>
                     <field name="amount"/>
                     <field name="journal_id"/>
-                    <field name="invoice_user_id"/>
+                    <field name="user_id"/>
+                    <field name="team_id" optional="hide"/>
                 </tree>
             </field>
         </record>
@@ -44,8 +24,7 @@
                 <search>
                     <field name="name"/>
                     <group expand="0" string="Group By">
-                        <filter string="Name" name="name" context="{'group_by':'name'}"/>
-                        <filter string="Type" name="type" context="{'group_by':'type'}"/>
+                        <filter string="Salesperson" name="user_id" context="{'group_by':'name'}"/>
                     </group>
                 </search>
             </field>
@@ -55,9 +34,8 @@
             <field name="name">Account Move Dynamice</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">account.move.dynamic</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">tree</field>
         </record>
-
 
     </data>
 </odoo>

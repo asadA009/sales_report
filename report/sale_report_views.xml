@@ -65,14 +65,13 @@
                                 <table class="table table-sm table-bordered">
                                     <thead>
                                         <tr style="background-color:#191970;color:white">
-                                            <th class="text-center text-white text-capitalize">sr.no</th>
-                                            <th class="text-center text-white text-capitalize">name</th>
-                                            <th class="text-center text-white text-capitalize">date</th>
+                                            <th class="text-center text-white text-capitalize">#</th>
+                                            <th class="text-center text-white text-capitalize">Name</th>
+                                            <th class="text-center text-white text-capitalize">Date</th>
                                             <th class="text-center text-white text-capitalize">Type</th>
                                             <th class="text-center text-white text-capitalize">Salesperson</th>
-                                            <th class="text-center text-white text-capitalize">journal
-                                            </th>
-                                            <th class="text-center text-white text-capitalize">amount</th>
+                                            <th class="text-center text-white text-capitalize">Journal</th>
+                                            <th class="text-center text-white text-capitalize">Amount</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -91,10 +90,10 @@
                                                 </t>
                                             </td>
                                             <td>
-                                                <span t-field="o.type"/>
+                                                <span t-field="o.move_type"/>
                                             </td>
                                             <td>
-                                                <span t-esc="o.invoice_user_id.name"/>
+                                                <span t-esc="o.user_id.name"/>
                                             </td>
                                             <td>
                                                 <span t-esc="o.journal_id.name"/>
