@@ -1,9 +1,9 @@
-from odoo import api, fields, models, tools, _
+from odoo import fields, models, tools
 
 RECORD_TYPE = [('out_invoice', 'Regular Invoice'),
-                ('out_refund', 'Credit Note'),
-                ('inbound', 'Customer Payment'),
-                ('outbound', 'Customer Refund')]
+               ('out_refund', 'Credit Note'),
+               ('inbound', 'Customer Payment'),
+               ('outbound', 'Customer Refund')]
 
 
 class AccountMoveDynamic(models.Model):
@@ -31,7 +31,12 @@ class AccountMoveDynamic(models.Model):
         CASE WHEN act.payment_id IS NOT NULL THEN pay.user_id ELSE act.invoice_user_id END AS user_id,
         CASE WHEN act.payment_id IS NOT NULL THEN pay.team_id ELSE act.team_id END AS team_id,
         pay.payment_type AS payment_type,
-        act.amount_total_signed AS amount
+        CASE 
+        WHEN act.payment_id IS NOT NULL AND pay.payment_type = 'outbound'
+        THEN 0 - act.amount_total_signed
+        WHEN act.payment_id IS NOT NULL AND pay.payment_type = 'inbound'
+        THEN act.amount_total_signed
+        ELSE act.amount_total_signed END AS amount
         FROM account_move AS act LEFT JOIN account_payment AS pay ON act.payment_id = pay.id
-        WHERE act.payment_id IS NOT NULL OR act.move_type IN ('out_invoice', 'out_refund')
+        WHERE (act.payment_id IS NOT NULL OR act.move_type IN ('out_invoice', 'out_refund')) AND act.state = 'posted'
         )""")

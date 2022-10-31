@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
+
         <record model="ir.ui.view" id="sales_report.sales_report_form_wizard">
             <field name="name">Sales Reports</field>
             <field name="model">sales.report.wizard</field>
@@ -16,8 +17,9 @@
                             </group>
                         </group>
                         <footer>
-                            <button string="Print" name="print_report" type="object" class="btn-primary"/>
                             <button string="Tree View" name="tree_view" type="object" class="btn-primary"/>
+                            <button string="Print" name="print_report" type="object" class="btn-primary"/>
+                            <button string="Print Excel" name="print_report_xlsx" type="object" class="btn-primary"/>
                             <button string="Cancel" class="btn-default" special="cancel"/>
                         </footer>
                     </sheet>

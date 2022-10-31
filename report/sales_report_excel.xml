@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+
+        <!-- Sales Report -->
+        <report id="action_report_sales_xlsx"
+                model="account.move.dynamic"
+                string="Sales Report"
+                report_type="xlsx"
+                name="sales_report.sales_report"
+                file="Sales Report"
+                menu="False"
+                attachment_use="False"/>
+
+    </data>
+</odoo>
