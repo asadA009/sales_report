@@ -8,18 +8,15 @@
             <field name="arch" type="xml">
                 <form>
                     <sheet>
-                        <group>
-                            <group>
-                                <field name="date_from"/>
-                            </group>
-                            <group>
-                                <field name="date_to"/>
-                            </group>
+                        <group col="4">
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                            <field name="user_id"/>
                         </group>
                         <footer>
                             <button string="Tree View" name="tree_view" type="object" class="btn-primary"/>
-                            <button string="Print" name="print_report" type="object" class="btn-primary"/>
-                            <button string="Print Excel" name="print_report_xlsx" type="object" class="btn-primary"/>
+<!--                            <button string="Print" name="print_report" type="object" class="btn-primary"/>-->
+                            <button string="Extract Excel" name="print_report_xlsx" type="object" class="btn-primary"/>
                             <button string="Cancel" class="btn-default" special="cancel"/>
                         </footer>
                     </sheet>

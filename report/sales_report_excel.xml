@@ -7,8 +7,8 @@
                 model="account.move.dynamic"
                 string="Sales Report"
                 report_type="xlsx"
-                name="sales_report.sales_report"
-                file="Sales Report"
+                name="sales_report.sales_report_xlsx"
+                file="sales_report.sales_report_xlsx"
                 menu="False"
                 attachment_use="False"/>
 

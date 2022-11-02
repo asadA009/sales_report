@@ -8,38 +8,34 @@
         </record>
 
         <!--Group For Sales User-->
-
-        <record id="sales_report_user" model="res.groups">
+        <record id="group_sales_report_user" model="res.groups">
             <field name="name">User</field>
             <field name="category_id" ref="sales_report.sales_report_security_cat"/>
             <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
         </record>
 
         <!--Group For Sales Team Lead-->
-
-        <record id="sales_report_lead" model="res.groups">
+        <record id="group_sales_report_lead" model="res.groups">
             <field name="name">Team Lead</field>
             <field name="category_id" ref="sales_report.sales_report_security_cat"/>
-            <field name="implied_ids" eval="[(4, ref('sales_report.sales_report_user'))]"/>
+            <field name="implied_ids" eval="[(4, ref('sales_report.group_sales_report_user'))]"/>
             <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
         </record>
 
         <!--Group For Sales Report Manager-->
-
-        <record id="sales_report_admin" model="res.groups">
+        <record id="group_sales_report_admin" model="res.groups">
             <field name="name">Report Manager</field>
             <field name="category_id" ref="sales_report.sales_report_security_cat"/>
-            <field name="implied_ids" eval="[(4, ref('sales_report.sales_report_lead'))]"/>
+            <field name="implied_ids" eval="[(4, ref('sales_report.group_sales_report_lead'))]"/>
             <field name="users" eval="[(4, ref('base.user_root'))]"/>
         </record>
 
         <!--Record Rules for Report User-->
-
         <record model="ir.rule" id="sales_report_user">
             <field name="name">User view Own Report</field>
             <field name="model_id" ref="sales_report.model_account_move_dynamic"/>
             <field name="groups"
-                   eval="[(4, ref('sales_report.sales_report_user'))]"/>
+                   eval="[(4, ref('sales_report.group_sales_report_user'))]"/>
             <field name="domain_force">[('user_id', '=', user.id)]</field>
         </record>
 
@@ -47,7 +43,7 @@
             <field name="name">Team Leader View Team Reports</field>
             <field name="model_id" ref="sales_report.model_account_move_dynamic"/>
             <field name="groups"
-                   eval="[(4, ref('sales_report.sales_report_lead'))]"/>
+                   eval="[(4, ref('sales_report.group_sales_report_lead'))]"/>
             <field name="domain_force">['|', ('user_id', '=', user.id), ('team_id.user_id', '=', user.id)]</field>
         </record>
 
@@ -55,7 +51,7 @@
             <field name="name">Manager View All</field>
             <field name="model_id" ref="sales_report.model_account_move_dynamic"/>
             <field name="groups"
-                   eval="[(4, ref('sales_report.sales_report_admin'))]"/>
+                   eval="[(4, ref('sales_report.group_sales_report_admin'))]"/>
             <field name="domain_force">[(1, '=',1)]</field>
         </record>
     </data>
